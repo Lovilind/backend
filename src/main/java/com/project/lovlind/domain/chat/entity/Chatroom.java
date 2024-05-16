@@ -1,6 +1,6 @@
 package com.project.lovlind.domain.chat.entity;
 
-import com.project.lovlind.domain.participaint.Participaint;
+import com.project.lovlind.domain.participaint.entity.Participant;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class Chatroom {
   private int minParticipant;
 
   @OneToMany(orphanRemoval = true)
-  List<Participaint> participaintsList = new ArrayList<>();
+  List<Participant> participaintsList = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "chatroom")
   List<ChatroomHobby> chatroomHobbyList = new ArrayList<>();

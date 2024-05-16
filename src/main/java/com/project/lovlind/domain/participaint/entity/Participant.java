@@ -1,4 +1,4 @@
-package com.project.lovlind.domain.participaint;
+package com.project.lovlind.domain.participaint.entity;
 
 import com.project.lovlind.domain.chat.entity.Chatroom;
 import com.project.lovlind.domain.member.entity.Member;
@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Participaint {
+public class Participant {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(updatable = false, name = "participaint_id")
+  @Column(updatable = false, name = "participant_id")
   private Long id;
 
   @OneToOne
