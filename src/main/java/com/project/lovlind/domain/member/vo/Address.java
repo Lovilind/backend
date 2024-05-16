@@ -13,5 +13,4 @@ public class Address {
   private String zipCode;
   private String addressSimple;
   private String addressDetail;
-  private String phone;
 }

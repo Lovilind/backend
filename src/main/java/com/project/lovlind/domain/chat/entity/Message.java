@@ -1,7 +1,7 @@
 package com.project.lovlind.domain.chat.entity;
 
 import com.project.lovlind.domain.auditing.BaseTime;
-import com.project.lovlind.domain.participaint.Participaint;
+import com.project.lovlind.domain.participaint.entity.Participant;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,8 +25,8 @@ public class Message extends BaseTime {
   @Lob private String message;
 
   @OneToOne
-  @JoinColumn(name = "participaint_id")
-  Participaint participaint;
+  @JoinColumn(name = "participant_id")
+  Participant participant;
 
   @OneToOne
   @JoinColumn(name = "chatroom_id")
