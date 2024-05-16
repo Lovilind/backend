@@ -24,11 +24,11 @@ public class ChatroomReport {
   @Lob private String reason;
 
   @OneToOne
-  @JoinColumn(name = "member_id")
+  @JoinColumn(name = "reporter_id")
   Member reporter;
 
   @OneToOne
-  @JoinColumn(name = "member_id")
+  @JoinColumn(name = "reported_id")
   Member reportedId;
 
   @OneToOne
