@@ -20,16 +20,19 @@ public class ChatroomWebSocketService {
   public SendMessageDto saveMessage(MessageDto dto, Long roomId, String sessionId) {
 
     // 활성화 되어 있는 채팅방 여부 체크
-//    if (!cache.checkRoomExist(roomId)) {
-//      throw new RuntimeException("활성화 된 채팅방이 존재하지 않습니다.");
-//    }
-    //TODO: 서비스 구현 완료 이후 추가 작업 필요(활성화된 chatroom을 모두 cache에 넣어주는 작업 이후 작업이 필요함)
+    if (!cache.checkRoomExist(roomId)) {
+      throw new RuntimeException("활성화 된 채팅방이 존재하지 않습니다.");
+    }
+    // TODO: 서비스 구현 완료 이후 추가 작업 필요(활성화된 chatroom을 모두 cache에 넣어주는 작업 이후 작업이 필요함)
 
     // create Entity
     ParticipantDto savedPrincipal = cache.getParticipant(roomId, sessionId);
     Message requestMessage =
         new Message(
-            dto.getMessage(), new Member(savedPrincipal.getMemberId()), new Chatroom(roomId));
+            dto.getMessage(),
+            new Member(savedPrincipal.getMemberId()),
+            new Chatroom(roomId),
+            dto.getMessageType());
 
     // save Message
     messageRepository.save(requestMessage);

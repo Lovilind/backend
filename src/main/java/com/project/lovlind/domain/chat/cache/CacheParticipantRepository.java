@@ -10,4 +10,6 @@ public interface CacheParticipantRepository {
   ParticipantDto getParticipant(Long roomId, String sessionId);
 
   boolean checkRoomExist(Long roomId);
+
+  void saveRoom(Long roomId);
 }
