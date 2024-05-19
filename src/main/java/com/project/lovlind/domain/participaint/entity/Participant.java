@@ -13,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,13 +28,15 @@ public class Participant {
   @Enumerated(STRING)
   private ParticipantStatus participantStatus;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "member_id")
   Member member;
 
   @ManyToOne
   @JoinColumn(name = "chatroom_id")
   Chatroom chatroom;
+
+  private Long lastSendMessage;
 
   public Participant(Member member, Chatroom chatroom) {
     this.member = member;
