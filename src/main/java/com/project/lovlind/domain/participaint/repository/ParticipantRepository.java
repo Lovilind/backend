@@ -11,4 +11,7 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
   @Query("select p from Participant p where p.member.id = :memberId and p.chatroom.id = :roomId")
   Optional<Participant> findByMemberIdAndRoomId(
       @Param("memberId") Long memberId, @Param("roomId") Long roomId);
+
+  @Query("delete from Participant p where p.member.id =: memberId")
+  void deleteByMemberId(@Param("memberId") Long memberId);
 }

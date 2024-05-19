@@ -14,4 +14,8 @@ public interface CacheParticipantRepository {
   void saveRoom(Long roomId);
 
   ParticipantDto findMemberId(Long memberId, Long chatroomId);
+
+  ParticipantDto findRoomIdBySessionId(String sessionId);
+
+  void deleteParticipant(String sessionId);
 }

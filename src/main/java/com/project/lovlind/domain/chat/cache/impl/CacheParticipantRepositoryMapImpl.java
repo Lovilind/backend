@@ -5,6 +5,7 @@ import static com.project.lovlind.domain.chat.cache.ParticipantCache.participant
 import com.project.lovlind.domain.chat.cache.CacheParticipantRepository;
 import com.project.lovlind.domain.chat.cache.dto.ParticipantDto;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
@@ -43,5 +44,21 @@ public class CacheParticipantRepositoryMapImpl implements CacheParticipantReposi
         .filter(p -> p.equals(memberId))
         .findFirst()
         .orElse(new ParticipantDto());
+  }
+
+  @Override
+  public ParticipantDto findRoomIdBySessionId(String sessionId) {
+    Optional<ParticipantDto> participant =
+        participantMap.values().stream()
+            .flatMap(roomParticipants -> roomParticipants.values().stream())
+            .filter(p -> p.getSessionId().equals(sessionId))
+            .findFirst();
+
+    return participant.orElse(new ParticipantDto());
+  }
+
+  @Override
+  public void deleteParticipant(String sessionId) {
+    participantMap.values().forEach(roomParticipants -> roomParticipants.remove(sessionId));
   }
 }

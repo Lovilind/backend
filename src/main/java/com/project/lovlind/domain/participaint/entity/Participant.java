@@ -48,4 +48,8 @@ public class Participant {
     this.chatroom = chatroom;
     chatroom.getParticipantsList().add(this);
   }
+
+  public void addLastSendMessage(Long lastSendMessage) {
+    this.lastSendMessage = lastSendMessage;
+  }
 }

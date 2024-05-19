@@ -4,6 +4,7 @@ import com.project.lovlind.domain.chat.cache.CacheParticipantRepository;
 import com.project.lovlind.domain.chat.cache.dto.ParticipantDto;
 import com.project.lovlind.domain.chat.cache.dto.PrincipalDto;
 import com.project.lovlind.domain.chat.entity.Chatroom;
+import com.project.lovlind.domain.chat.repository.MessageRepository;
 import com.project.lovlind.domain.member.entity.Member;
 import com.project.lovlind.domain.participaint.entity.Participant;
 import com.project.lovlind.domain.participaint.repository.ParticipantRepository;
@@ -23,6 +24,7 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 public class ChatEventListener {
   private final CacheParticipantRepository cacheRepository;
   private final ParticipantRepository participantRepository;
+  private final MessageRepository messageRepository;
 
   @EventListener
   public void onConnect(SessionConnectEvent event) {
@@ -64,14 +66,41 @@ public class ChatEventListener {
     cacheRepository.save(roomId, sessionId, dto);
   }
 
+  // 본인이 직접 눌러서 나갈 경우 캐쉬 RDB에서 삭제
   @EventListener
   public void onUnsubscribe(SessionUnsubscribeEvent event) {
+    String sessionId = (String) event.getMessage().getHeaders().get("simpSessionId");
+    // 구독 취소 -> 여기에 들어오면 참가자 정보를 죽인다.
+    PrincipalDto user = (PrincipalDto) event.getUser();
+    participantRepository.deleteByMemberId(user.getMemberId());
+
+    // cache 에서 데이터 삭제
+    cacheRepository.deleteParticipant(sessionId);
 
     log.info("unSubscribe!! Sender");
   }
 
+  // 웹사이트가 꺼질 경우 마지막 데이터 조회
   @EventListener
   public void onDisconnect(SessionDisconnectEvent event) {
+    PrincipalDto user = (PrincipalDto) event.getUser();
+    String sessionId = event.getSessionId();
+
+    // session 정보활용 -> chatroom 정보 조회 -> 마지막으로 전송한 message 조회 -> participant 저장
+
+    ParticipantDto cachedParticipant = cacheRepository.findRoomIdBySessionId(sessionId);
+
+    Optional<Participant> optionalParticipant =
+        participantRepository.findByMemberIdAndRoomId(
+            user.getMemberId(), cachedParticipant.getRoomId());
+
+    optionalParticipant.ifPresent(
+        p -> {
+          Long lastSendMessage =
+              messageRepository.findLastMessageByRoomId(cachedParticipant.getRoomId());
+          p.addLastSendMessage(lastSendMessage);
+        });
+
     log.info("disconnection!! GoodBy!");
   }
 }
