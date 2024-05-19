@@ -12,4 +12,6 @@ public interface CacheParticipantRepository {
   boolean checkRoomExist(Long roomId);
 
   void saveRoom(Long roomId);
+
+  ParticipantDto findMemberId(Long memberId, Long chatroomId);
 }

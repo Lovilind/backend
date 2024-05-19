@@ -4,6 +4,7 @@ import static com.project.lovlind.domain.chat.cache.ParticipantCache.participant
 
 import com.project.lovlind.domain.chat.cache.CacheParticipantRepository;
 import com.project.lovlind.domain.chat.cache.dto.ParticipantDto;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
@@ -28,5 +29,19 @@ public class CacheParticipantRepositoryMapImpl implements CacheParticipantReposi
   @Override
   public boolean checkRoomExist(Long roomId) {
     return participantMap.containsKey(roomId);
+  }
+
+  @Override
+  public void saveRoom(Long roomId) {
+    participantMap.computeIfAbsent(roomId, k -> new ConcurrentHashMap<>());
+  }
+
+  @Override
+  public ParticipantDto findMemberId(Long memberId, Long chatroomId) {
+    Map<String, ParticipantDto> chatroomMap = participantMap.get(chatroomId);
+    return chatroomMap.values().stream()
+        .filter(p -> p.equals(memberId))
+        .findFirst()
+        .orElse(new ParticipantDto());
   }
 }

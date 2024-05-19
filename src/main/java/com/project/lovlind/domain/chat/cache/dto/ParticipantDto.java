@@ -23,4 +23,9 @@ public class ParticipantDto {
     this.memberId = user.getMemberId();
     this.nickname = user.getNickname();
   }
+
+  public void setPrincipalDto(PrincipalDto user) {
+    this.memberId = user.getMemberId();
+    this.nickname = user.getNickname();
+  }
 }
