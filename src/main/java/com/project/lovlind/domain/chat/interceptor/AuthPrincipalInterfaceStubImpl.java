@@ -9,7 +9,7 @@ public class AuthPrincipalInterfaceStubImpl implements AuthPrincipalInterface {
 
   @Override
   public PrincipalDto createPrincipal(String accessToken) {
-    if (isNumeric(accessToken)) {
+    if (!isNumeric(accessToken)) {
       return PrincipalDto.builder().memberId(1L).nickname("memberStubA").build();
     }
     return PrincipalDto.builder()

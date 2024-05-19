@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MessageDto {
   private MessageType messageType;
-  private Long writerId;
   private String message;
 }
