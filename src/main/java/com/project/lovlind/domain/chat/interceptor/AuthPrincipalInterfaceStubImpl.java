@@ -20,7 +20,7 @@ public class AuthPrincipalInterfaceStubImpl implements AuthPrincipalInterface {
 
   @Override
   public CurrentUser findCurrentUser(String accessToken) {
-    if (isNumeric(accessToken)) {
+    if (!isNumeric(accessToken)) {
       return new CurrentUser(1L);
     }
     return new CurrentUser(Long.parseLong(accessToken));

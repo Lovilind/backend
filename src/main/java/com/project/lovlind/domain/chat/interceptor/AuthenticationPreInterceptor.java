@@ -32,8 +32,8 @@ public class AuthenticationPreInterceptor implements ChannelInterceptor {
   public void findPrincipalDtoByAuth(StompHeaderAccessor accessor) {
     if (StompCommand.CONNECT.equals(accessor.getCommand())) {
       String accessToken = "1";
-      if (accessor.getNativeHeader("Authentication") != null) {
-        accessToken = accessor.getNativeHeader("Authentication").get(0);
+      if (accessor.getNativeHeader("Authorization") != null) {
+        accessToken = accessor.getNativeHeader("Authorization").get(0);
       }
       PrincipalDto user = authPrincipal.createPrincipal(accessToken);
       accessor.setUser(user);
