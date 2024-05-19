@@ -8,12 +8,28 @@ import org.springframework.stereotype.Component;
 public class AuthPrincipalInterfaceStubImpl implements AuthPrincipalInterface {
 
   @Override
-  public PrincipalDto createPrincipal() {
-    return PrincipalDto.builder().memberId(1L).nickname("memberStubA").build();
+  public PrincipalDto createPrincipal(String accessToken) {
+    if (isNumeric(accessToken)) {
+      return PrincipalDto.builder().memberId(1L).nickname("memberStubA").build();
+    }
+    return PrincipalDto.builder()
+        .memberId(Long.parseLong(accessToken))
+        .nickname("memberStub" + accessToken)
+        .build();
   }
 
   @Override
-  public CurrentUser findCurrentUser() {
-    return new CurrentUser(1L);
+  public CurrentUser findCurrentUser(String accessToken) {
+    if (isNumeric(accessToken)) {
+      return new CurrentUser(1L);
+    }
+    return new CurrentUser(Long.parseLong(accessToken));
+  }
+
+  private boolean isNumeric(String str) {
+    if (str == null || str.isEmpty()) {
+      return false;
+    }
+    return str.matches("\\d+");
   }
 }

@@ -4,7 +4,7 @@ import com.project.lovlind.conmon.requset.dto.CurrentUser;
 import com.project.lovlind.domain.chat.cache.dto.PrincipalDto;
 
 public interface AuthPrincipalInterface {
-  PrincipalDto createPrincipal();
+  PrincipalDto createPrincipal(String accessToken);
 
-  CurrentUser findCurrentUser();
+  CurrentUser findCurrentUser(String accessToken);
 }

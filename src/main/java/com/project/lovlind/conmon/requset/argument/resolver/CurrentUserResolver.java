@@ -2,6 +2,7 @@ package com.project.lovlind.conmon.requset.argument.resolver;
 
 import com.project.lovlind.conmon.requset.dto.CurrentUser;
 import com.project.lovlind.domain.chat.interceptor.AuthPrincipalInterface;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,8 @@ public class CurrentUserResolver implements HandlerMethodArgumentResolver {
       NativeWebRequest webRequest,
       WebDataBinderFactory binderFactory)
       throws Exception {
-    return authPrincipalInterface.findCurrentUser();
+    HttpServletRequest request = (HttpServletRequest) webRequest;
+    String accessToken = request.getHeader("Authentication");
+    return authPrincipalInterface.findCurrentUser(accessToken);
   }
 }
