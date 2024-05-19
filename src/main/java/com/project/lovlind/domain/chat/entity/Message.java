@@ -1,7 +1,7 @@
 package com.project.lovlind.domain.chat.entity;
 
 import com.project.lovlind.domain.auditing.BaseTime;
-import com.project.lovlind.domain.participaint.entity.Participant;
+import com.project.lovlind.domain.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,11 +25,17 @@ public class Message extends BaseTime {
 
   @Lob private String message;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "participant_id")
-  Participant participant;
+  Member member;
 
   @OneToOne
   @JoinColumn(name = "chatroom_id")
   Chatroom chatroom;
+
+  public Message(String message, Member member, Chatroom chatroom) {
+    this.message = message;
+    this.member = member;
+    this.chatroom = chatroom;
+  }
 }
