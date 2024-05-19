@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class InitChatroom {
-    private final ChatroomRepository chatroomRepository;
-    private final CacheParticipantRepository cacheParticipantRepository;
+  private final ChatroomRepository chatroomRepository;
+  private final CacheParticipantRepository cacheParticipantRepository;
 
-    @Scheduled(initialDelay = 10000)//서버 시작 10초 뒤 실행
-    public void saveChatroomInCache(){
-        log.info("init chatroom ini cache");
-        List<Chatroom> chatroom = chatroomRepository.findAll();
-        chatroom.forEach(c-> cacheParticipantRepository.saveRoom(c.getId()));
-    }
+  @Scheduled(initialDelay = 10000) // 서버 시작 10초 뒤 실행
+  public void saveChatroomInCache() {
+    log.info("init chatroom ini cache");
+    List<Chatroom> chatroom = chatroomRepository.findAll();
+    chatroom.forEach(c -> cacheParticipantRepository.saveRoom(c.getId()));
+  }
 }

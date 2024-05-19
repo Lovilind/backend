@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class ChatroomService {
   private final ChatroomRepository repository;
   private final CacheParticipantRepository cacheParticipantRepository;
+
   public Long saveChatroom(PostChatDto dto) {
     List<ChatroomHobby> requestHobbyList = new ArrayList<>();
 
@@ -22,7 +23,7 @@ public class ChatroomService {
         new Chatroom(dto.title(), dto.maxParticipant(), dto.minParticipant(), requestHobbyList);
     Chatroom savedEntity = repository.save(requestEntity);
 
-    //Cache 추가
+    // Cache 추가
     cacheParticipantRepository.saveRoom(savedEntity.getId());
     return savedEntity.getId();
   }
