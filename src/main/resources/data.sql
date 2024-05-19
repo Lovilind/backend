@@ -15,8 +15,8 @@ insert into member (
           '789 Oak St, Apt 3', '789 Oak St', 'alice.smith@example.com', 'FEMALE', 'ISTJ', 'alice', 'password789', '567-890-1234', 'VVIP', 'ACTIVE', '11223'
       );
 
-insert into chatroom (max_participant,min_participant,chatroom_id,title)
+insert into chatroom (max_participant,min_participant,title)
 values
-    (20,10,1,'채팅방제목1'),
-    (20,10,2,'채팅방제목2'),
-    (20,10,3,'채팅방제목3');
+    (20,10,'채팅방제목1'),
+    (20,10,'채팅방제목2'),
+    (20,10,'채팅방제목3');
