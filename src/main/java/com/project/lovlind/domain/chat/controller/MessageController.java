@@ -6,6 +6,8 @@ import com.project.lovlind.domain.chat.controller.dto.response.MessageListDto;
 import com.project.lovlind.domain.chat.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,9 @@ public class MessageController {
 
   @GetMapping
   public ResponseEntity<SliceResponse<MessageListDto>> getMessageList(
-      Pageable pageable, CurrentUser user, @RequestParam("roomId") Long roomId) {
+      @PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable,
+      CurrentUser user,
+      @RequestParam("roomId") Long roomId) {
     var result = service.findMessageSender(pageable, user.getUserId(), roomId);
     return ResponseEntity.ok(result);
   }
