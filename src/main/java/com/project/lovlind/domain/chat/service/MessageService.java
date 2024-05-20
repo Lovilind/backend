@@ -1,5 +1,9 @@
 package com.project.lovlind.domain.chat.service;
 
+import static com.project.lovlind.domain.chat.exception.ChatExceptionCode.*;
+import static com.project.lovlind.domain.participaint.exception.ParticipantExceptionCode.NOT_FOUND_PARTICIPANT;
+
+import com.project.lovlind.conmon.exception.BusinessLogicException;
 import com.project.lovlind.conmon.requset.dto.SliceInfo;
 import com.project.lovlind.conmon.requset.dto.SliceResponse;
 import com.project.lovlind.domain.chat.cache.CacheParticipantRepository;
@@ -30,14 +34,16 @@ public class MessageService {
     // 참가 번호 조회
     if (!cacheParticipantRepository.checkRoomExist(roomId)) {
       // 마지막 (캐시에 없을 경우 마지막으로 확인하는 용도)
-      chatroomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("채팅방이 없습니다."));
+      chatroomRepository
+          .findById(roomId)
+          .orElseThrow(() -> new BusinessLogicException(NOT_FOUND_CHATROOM));
     }
 
     // 참가자 정보 조회
     Participant participant =
         participantRepository
             .findByMemberIdAndRoomId(memberId, roomId)
-            .orElseThrow(() -> new RuntimeException("참가자가 아닙니다."));
+            .orElseThrow(() -> new BusinessLogicException(NOT_FOUND_PARTICIPANT));
 
     // 읽기 데이터 조회
     Slice<Message> findEntitySlice = messageRepository.findMessageByRoomId(pageable, roomId);
@@ -61,4 +67,3 @@ public class MessageService {
         responseMessageList, sliceInfo, String.valueOf(HttpStatus.OK.value()));
   }
 }
-// TODO : Exception

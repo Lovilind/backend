@@ -32,7 +32,6 @@ public class ChatEventListener {
     log.info("connection!! Sender This is ChatEventListener");
   }
 
-  // TODO : 작업 준비 중
   @EventListener
   public void onSubscribe(SessionSubscribeEvent event) {
     String destination = (String) event.getMessage().getHeaders().get("simpDestination");
@@ -45,7 +44,6 @@ public class ChatEventListener {
 
     // user
     PrincipalDto user = (PrincipalDto) event.getUser();
-
     // find Participant in RDB 조회 결과 데이터가 존재하지 않는다면 저장 아니면 패스
     Optional<Participant> findParticipant =
         participantRepository.findByMemberIdAndRoomId(user.getMemberId(), roomId);

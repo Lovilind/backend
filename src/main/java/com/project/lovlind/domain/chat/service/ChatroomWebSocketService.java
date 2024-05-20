@@ -1,5 +1,8 @@
 package com.project.lovlind.domain.chat.service;
 
+import static com.project.lovlind.domain.chat.exception.ChatExceptionCode.*;
+
+import com.project.lovlind.conmon.exception.BusinessLogicException;
 import com.project.lovlind.domain.chat.cache.CacheParticipantRepository;
 import com.project.lovlind.domain.chat.cache.dto.ParticipantDto;
 import com.project.lovlind.domain.chat.controller.dto.request.MessageDto;
@@ -21,9 +24,8 @@ public class ChatroomWebSocketService {
 
     // 활성화 되어 있는 채팅방 여부 체크
     if (!cache.checkRoomExist(roomId)) {
-      throw new RuntimeException("활성화 된 채팅방이 존재하지 않습니다.");
+      throw new BusinessLogicException(NOT_FOUND_CHATROOM);
     }
-    // TODO: 서비스 구현 완료 이후 추가 작업 필요(활성화된 chatroom을 모두 cache에 넣어주는 작업 이후 작업이 필요함)
 
     // create Entity
     ParticipantDto savedPrincipal = cache.getParticipant(roomId, sessionId);
