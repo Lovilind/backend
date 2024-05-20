@@ -1,5 +1,6 @@
 package com.project.lovlind.domain.chat.interceptor;
 
+import com.project.lovlind.conmon.utils.auth.AuthSolveUtils;
 import com.project.lovlind.domain.chat.cache.dto.PrincipalDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AuthenticationPreInterceptor implements ChannelInterceptor {
-  private final AuthPrincipalInterface authPrincipal;
+  private final AuthSolveUtils authPrincipal;
 
   @Override
   public Message<?> preSend(Message<?> message, MessageChannel channel) {

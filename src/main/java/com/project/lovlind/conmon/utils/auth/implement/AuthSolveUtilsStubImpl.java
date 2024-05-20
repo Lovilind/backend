@@ -1,11 +1,14 @@
-package com.project.lovlind.domain.chat.interceptor;
+package com.project.lovlind.conmon.utils.auth.implement;
+
+import static com.project.lovlind.conmon.utils.number.NumberUtils.isNumeric;
 
 import com.project.lovlind.conmon.requset.dto.CurrentUser;
+import com.project.lovlind.conmon.utils.auth.AuthSolveUtils;
 import com.project.lovlind.domain.chat.cache.dto.PrincipalDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthPrincipalInterfaceStubImpl implements AuthPrincipalInterface {
+public class AuthSolveUtilsStubImpl implements AuthSolveUtils {
 
   @Override
   public PrincipalDto createPrincipal(String accessToken) {
@@ -24,12 +27,5 @@ public class AuthPrincipalInterfaceStubImpl implements AuthPrincipalInterface {
       return new CurrentUser(1L);
     }
     return new CurrentUser(Long.parseLong(accessToken));
-  }
-
-  private boolean isNumeric(String str) {
-    if (str == null || str.isEmpty()) {
-      return false;
-    }
-    return str.matches("\\d+");
   }
 }

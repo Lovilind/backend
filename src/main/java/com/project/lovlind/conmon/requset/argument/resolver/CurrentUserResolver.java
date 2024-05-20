@@ -1,7 +1,7 @@
 package com.project.lovlind.conmon.requset.argument.resolver;
 
 import com.project.lovlind.conmon.requset.dto.CurrentUser;
-import com.project.lovlind.domain.chat.interceptor.AuthPrincipalInterface;
+import com.project.lovlind.conmon.utils.auth.AuthSolveUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 @RequiredArgsConstructor
 public class CurrentUserResolver implements HandlerMethodArgumentResolver {
-  private final AuthPrincipalInterface authPrincipalInterface;
+  private final AuthSolveUtils authSolveUtils;
 
   @Override
   public boolean supportsParameter(MethodParameter parameter) {
@@ -28,6 +28,6 @@ public class CurrentUserResolver implements HandlerMethodArgumentResolver {
       WebDataBinderFactory binderFactory)
       throws Exception {
     String accessToken = webRequest.getHeader("Authorization");
-    return authPrincipalInterface.findCurrentUser(accessToken);
+    return authSolveUtils.findCurrentUser(accessToken);
   }
 }
