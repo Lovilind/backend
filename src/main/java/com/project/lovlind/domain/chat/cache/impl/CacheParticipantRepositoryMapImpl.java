@@ -41,7 +41,7 @@ public class CacheParticipantRepositoryMapImpl implements CacheParticipantReposi
   public ParticipantDto findMemberId(Long memberId, Long chatroomId) {
     Map<String, ParticipantDto> chatroomMap = participantMap.get(chatroomId);
     return chatroomMap.values().stream()
-        .filter(p -> p.equals(memberId))
+        .filter(p -> p.getMemberId().equals(memberId))
         .findFirst()
         .orElse(new ParticipantDto());
   }
@@ -58,7 +58,23 @@ public class CacheParticipantRepositoryMapImpl implements CacheParticipantReposi
   }
 
   @Override
+  public void updateOrSaveParticipant(ParticipantDto changeDto) {
+    ParticipantDto savedData = findMemberId(changeDto.getMemberId(), changeDto.getRoomId());
+    updateParticipant(changeDto, savedData);
+    // save participant in cache
+    save(changeDto.getRoomId(), changeDto.getSessionId(), changeDto);
+  }
+
+  @Override
   public void deleteParticipant(String sessionId) {
     participantMap.values().forEach(roomParticipants -> roomParticipants.remove(sessionId));
+  }
+
+  private void updateParticipant(ParticipantDto change, ParticipantDto target) {
+    target.setSessionId(change.getSessionId());
+    target.setMemberId(change.getMemberId());
+    target.setNickname(change.getNickname());
+    target.setChatType(change.getChatType());
+    target.setRoomId(change.getRoomId());
   }
 }

@@ -17,5 +17,7 @@ public interface CacheParticipantRepository {
 
   ParticipantDto findRoomIdBySessionId(String sessionId);
 
+  void updateOrSaveParticipant(ParticipantDto changeDto);
+
   void deleteParticipant(String sessionId);
 }
