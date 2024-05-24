@@ -1,0 +1,33 @@
+package com.project.lovlind.conmon.requset.argument.resolver;
+
+import com.project.lovlind.conmon.requset.dto.CurrentUser;
+import com.project.lovlind.conmon.utils.auth.AuthSolveUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.support.WebDataBinderFactory;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.ModelAndViewContainer;
+
+@Component
+@RequiredArgsConstructor
+public class CurrentUserResolver implements HandlerMethodArgumentResolver {
+  private final AuthSolveUtils authSolveUtils;
+
+  @Override
+  public boolean supportsParameter(MethodParameter parameter) {
+    return parameter.getParameterType().equals(CurrentUser.class);
+  }
+
+  @Override
+  public Object resolveArgument(
+      MethodParameter parameter,
+      ModelAndViewContainer mavContainer,
+      NativeWebRequest webRequest,
+      WebDataBinderFactory binderFactory)
+      throws Exception {
+    String accessToken = webRequest.getHeader("Authorization");
+    return authSolveUtils.findCurrentUser(accessToken);
+  }
+}

@@ -31,9 +31,21 @@ public class Chatroom {
   @Column(nullable = false)
   private int minParticipant;
 
-  @OneToMany(orphanRemoval = true)
-  List<Participant> participaintsList = new ArrayList<>();
+  @OneToMany(orphanRemoval = true, mappedBy = "chatroom")
+  List<Participant> participantsList = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "chatroom")
   List<ChatroomHobby> chatroomHobbyList = new ArrayList<>();
+
+  public Chatroom(Long id) {
+    this.id = id;
+  }
+
+  public Chatroom(
+      String title, int maxParticipant, int minParticipant, List<ChatroomHobby> chatroomHobbyList) {
+    this.title = title;
+    this.maxParticipant = maxParticipant;
+    this.minParticipant = minParticipant;
+    this.chatroomHobbyList = chatroomHobbyList;
+  }
 }

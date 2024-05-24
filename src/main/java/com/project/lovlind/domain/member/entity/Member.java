@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseTime {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(updatable = false, name = "member_id")
+  @Column(updatable = false, name = "members_id")
   private Long id;
 
   @Column(nullable = false, unique = true)
@@ -42,18 +42,13 @@ public class Member extends BaseTime {
   @Column(nullable = false, unique = true)
   private String email;
 
-  @Column(nullable = false)
-  @Embedded
-  private Address address;
+  @Embedded private Address address;
 
-  @Column(nullable = false)
   private LocalDate birthDate;
 
   // ENUM 변경 여부 체크 필요
-  @Column(nullable = false)
   private Boolean isAdult;
 
-  @Column(nullable = false)
   private String phone;
 
   @Enumerated(value = EnumType.STRING)
@@ -77,4 +72,8 @@ public class Member extends BaseTime {
 
   @OneToMany(mappedBy = "member", orphanRemoval = true)
   List<MemberHobby> memberHobbyList = new ArrayList<>();
+
+  public Member(Long memberId) {
+    this.id = memberId;
+  }
 }
