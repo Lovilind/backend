@@ -26,4 +26,13 @@ public class MemberAuthentication {
 
   @Enumerated(value = EnumType.STRING)
   private UserRole userRole;
+
+  public static MemberAuthentication createJwt() {
+    return new MemberAuthentication(Provider.JWT, UserRole.CLIENT);
+  }
+
+  public MemberAuthentication(Provider provider, UserRole userRole) {
+    this.provider = provider;
+    this.userRole = userRole;
+  }
 }

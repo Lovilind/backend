@@ -21,6 +21,7 @@ import jakarta.persistence.OneToOne;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -75,5 +76,12 @@ public class Member extends BaseTime {
 
   public Member(Long memberId) {
     this.id = memberId;
+  }
+
+  public Member(String email, String password) {
+    this.password = password;
+    this.email = email;
+    this.nickname = UUID.randomUUID().toString();
+    this.memberAuthentication = MemberAuthentication.createJwt();
   }
 }
