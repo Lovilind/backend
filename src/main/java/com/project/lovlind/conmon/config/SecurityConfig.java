@@ -2,6 +2,7 @@ package com.project.lovlind.conmon.config;
 
 import com.project.lovlind.conmon.config.dsl.JwtFilterDsl;
 import com.project.lovlind.conmon.security.handler.AuthenticationEntryPointHandler;
+import com.project.lovlind.conmon.security.handler.LogoutSuccessCustomHandler;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ public class SecurityConfig {
 
   private final JwtFilterDsl jwtFilterDsl;
   private final AuthenticationEntryPointHandler authenticationEntryPointHandler;
+  private final LogoutSuccessCustomHandler logoutSuccessCustomHandler;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -35,7 +37,10 @@ public class SecurityConfig {
         .cors(cors -> cors.configurationSource(apiConfigurationSource()))
         .csrf(AbstractHttpConfigurer::disable)
         .exceptionHandling(
-            exception -> exception.authenticationEntryPoint(authenticationEntryPointHandler));
+            exception -> exception.authenticationEntryPoint(authenticationEntryPointHandler))
+        .logout(
+            logout ->
+                logout.logoutSuccessHandler(logoutSuccessCustomHandler).logoutUrl("/api/logout"));
     return http.build();
   }
 
