@@ -46,8 +46,8 @@ dependencies {
 //    implementation 'org.springframework.kafka:spring-kafka'
 
     /*Security*/
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 //    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
     /*Database*/
