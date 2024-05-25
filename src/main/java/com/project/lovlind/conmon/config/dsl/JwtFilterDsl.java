@@ -3,6 +3,7 @@ package com.project.lovlind.conmon.config.dsl;
 import com.project.lovlind.conmon.redis.repository.RedisRepository;
 import com.project.lovlind.conmon.security.filter.JwtAuthenticationFilter;
 import com.project.lovlind.conmon.security.filter.JwtVerificationFilter;
+import com.project.lovlind.conmon.security.handler.AuthenticationFailureCustomHandler;
 import com.project.lovlind.conmon.utils.jwt.JwtProperties;
 import com.project.lovlind.conmon.utils.jwt.JwtProvider;
 import com.project.lovlind.conmon.utils.response.CookieUtils;
@@ -22,6 +23,7 @@ public class JwtFilterDsl extends AbstractHttpConfigurer<JwtFilterDsl, HttpSecur
   private final ObjectMapperUtils objectMapperUtils;
   private final RedisRepository repository;
   private final CookieUtils cookieUtils;
+  private final AuthenticationFailureCustomHandler authenticationFailureCustomHandler;
 
   @Override
   public void configure(HttpSecurity builder) {
@@ -33,6 +35,7 @@ public class JwtFilterDsl extends AbstractHttpConfigurer<JwtFilterDsl, HttpSecur
             provider, cookieUtils, objectMapperUtils, repository, properties);
     jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
     jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
+    jwtAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureCustomHandler);
 
     JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(provider, properties);
 
