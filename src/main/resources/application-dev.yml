@@ -37,3 +37,17 @@ logging:
   level:
     org.hibernate.sql: info
     org.hibernate.type.descriptor.sql: trace
+
+jwt:
+  prefix: 'Bearer '
+  secret-key: tj3io45htno453iht12312323123231121e12eeee3a1e1ee1e1e1e1e2eewe2ewnoi4253hntio2453ntio24ntio2ntionionion3io24ntoi32noti34noti
+  access-token-validity-in-seconds: 150
+  refresh-token-validity-in-seconds: 259200
+  access-header: Authentication
+  refresh-header: Refresh
+
+cookie:
+  limit-time: 259200
+  accepted-url: '/api/auth/reissue'
+  cookie-name: Refresh
+  domain: localhost
