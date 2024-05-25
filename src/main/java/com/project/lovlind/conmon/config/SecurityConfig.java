@@ -1,6 +1,7 @@
 package com.project.lovlind.conmon.config;
 
 import com.project.lovlind.conmon.config.dsl.JwtFilterDsl;
+import com.project.lovlind.conmon.security.handler.AuthenticationEntryPointHandler;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
   private final JwtFilterDsl jwtFilterDsl;
+  private final AuthenticationEntryPointHandler authenticationEntryPointHandler;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -31,7 +33,9 @@ public class SecurityConfig {
         .httpBasic(AbstractHttpConfigurer::disable)
         // cors 관련 옵션 끄기
         .cors(cors -> cors.configurationSource(apiConfigurationSource()))
-        .csrf(AbstractHttpConfigurer::disable);
+        .csrf(AbstractHttpConfigurer::disable)
+        .exceptionHandling(
+            exception -> exception.authenticationEntryPoint(authenticationEntryPointHandler));
     return http.build();
   }
 
