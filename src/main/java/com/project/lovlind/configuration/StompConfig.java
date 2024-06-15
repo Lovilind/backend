@@ -1,16 +1,14 @@
-package com.project.lovlind.conmon.config;
+package com.project.lovlind.configuration;
 
 import com.project.lovlind.domain.chat.interceptor.AuthenticationPreInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
-@EnableWebSocketMessageBroker
 @RequiredArgsConstructor
 public class StompConfig implements WebSocketMessageBrokerConfigurer {
   private final AuthenticationPreInterceptor preInterceptor;

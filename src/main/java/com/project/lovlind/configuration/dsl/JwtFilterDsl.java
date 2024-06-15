@@ -1,4 +1,4 @@
-package com.project.lovlind.conmon.config.dsl;
+package com.project.lovlind.configuration.dsl;
 
 import com.project.lovlind.conmon.redis.repository.RedisRepository;
 import com.project.lovlind.conmon.security.filter.JwtAuthenticationFilter;

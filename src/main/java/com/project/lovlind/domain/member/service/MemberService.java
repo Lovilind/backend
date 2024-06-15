@@ -6,6 +6,8 @@ import com.project.lovlind.domain.member.entity.Member;
 import com.project.lovlind.domain.member.exception.MemberExceptionCode;
 import com.project.lovlind.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,4 +31,20 @@ public class MemberService {
     Member requestMember = new Member(dto.getEmail(), encodedPassword);
     return repository.save(requestMember).getId();
   }
+
+  public void delete(Long id) {
+      try {
+          repository.deleteById(id);
+      } catch (Exception e) {
+          throw new BusinessLogicException(MemberExceptionCode.USER_NOT_FOUND);
+      }
+  }
+
+    public Member getMemberById(Long id) {
+        try {
+            return repository.getMemberById(id);
+        } catch (Exception e) {
+            throw new BusinessLogicException(MemberExceptionCode.USER_NOT_FOUND);
+        }
+    }
 }

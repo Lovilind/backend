@@ -1,6 +1,6 @@
 package com.project.lovlind.conmon.utils.response.properties;
 
-import com.project.lovlind.conmon.config.property.YamlPropertySourceFactory;
+import com.project.lovlind.configuration.property.YamlPropertySourceFactory;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

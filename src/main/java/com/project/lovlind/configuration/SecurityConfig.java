@@ -1,6 +1,6 @@
-package com.project.lovlind.conmon.config;
+package com.project.lovlind.configuration;
 
-import com.project.lovlind.conmon.config.dsl.JwtFilterDsl;
+import com.project.lovlind.configuration.dsl.JwtFilterDsl;
 import com.project.lovlind.conmon.security.handler.AuthenticationEntryPointHandler;
 import com.project.lovlind.conmon.security.handler.LogoutSuccessCustomHandler;
 import java.util.Arrays;
@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,7 +17,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -47,14 +45,14 @@ public class SecurityConfig {
   }
 
   private CorsConfigurationSource apiConfigurationSource() {
+
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-    configuration.setAllowedMethods(
-        Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONAL", "OPTION"));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONAL", "OPTION"));
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(Arrays.asList("*"));
-    configuration.setExposedHeaders(
-        Arrays.asList("Authorization", "Location", "Refresh", "authorization"));
+    configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh", "authorization"));
+
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
 

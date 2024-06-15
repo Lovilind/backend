@@ -1,4 +1,4 @@
-package com.project.lovlind.conmon.config.property;
+package com.project.lovlind.configuration.property;
 
 import java.util.Objects;
 import java.util.Properties;

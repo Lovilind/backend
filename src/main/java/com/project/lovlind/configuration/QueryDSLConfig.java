@@ -1,4 +1,4 @@
-package com.project.lovlind.conmon.config;
+package com.project.lovlind.configuration;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
