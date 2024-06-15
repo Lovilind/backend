@@ -34,4 +34,11 @@ public class ChatroomReport {
   @OneToOne
   @JoinColumn(name = "chatroom_id")
   Chatroom chatroom;
+
+  public ChatroomReport(String reason, Member reporter, Member reportedId, Chatroom chatroom) {
+    this.reason = reason;
+    this.reporter = reporter;
+    this.reportedId = reportedId;
+    this.chatroom = chatroom;
+  }
 }
