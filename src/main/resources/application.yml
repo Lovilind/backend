@@ -1,3 +1,14 @@
 spring:
   application:
     name: lovlind
+#  mail:
+#    host: smtp.gmail.com
+#    port: 25
+
+
+#
+#spring.mail.host=smtp.gmail.com
+#spring.mail.username=your.email@gmail.com
+#spring.mail.password=your-password
+#spring.mail.properties.mail.smtp.auth=true
+#spring.mail.properties.mail.smtp.starttls.enable=true
