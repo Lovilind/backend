@@ -1,4 +1,4 @@
-package com.project.lovlind.conmon.exception.advice;
+package com.project.lovlind.conmon.requset.advisor;
 
 import com.project.lovlind.conmon.exception.BusinessLogicException;
 import com.project.lovlind.conmon.exception.ErrorResponse;
