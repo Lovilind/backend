@@ -29,13 +29,18 @@ public class MemberService {
 
   public Long save(PostMemberDto dto) {
 
-    if (existByEmail(dto.getEmail())) {
-        throw new BusinessLogicException(MemberExceptionCode.USER_EXIST);
+    if (! dto.getPassword().equals(dto.getRePassword())) {
+      throw new BusinessLogicException(MemberExceptionCode.PASSWORD_NOT_SAME);
     }
 
-    if (verifyEmail(dto.getEmail(), dto.getCode())) {
+    if (existByEmail(dto.getEmail())) {
+      throw new BusinessLogicException(MemberExceptionCode.USER_EXIST);
+    }
+
+    if (! isSuccessVerifyEmail(dto.getEmail(), dto.getCode())) {
       throw new BusinessLogicException(MemberExceptionCode.EMAIL_OCCUPY_CODE_FAIL);
     }
+
 
     String encodedPassword = encoder.encode(dto.getPassword());
     Member requestMember = new Member(dto.getEmail(), encodedPassword);
@@ -88,7 +93,7 @@ public class MemberService {
     return notificationService.sendEmail("이메일 인증", message, email);
   }
 
-  public boolean verifyEmail(String email, String verificationCode) {
+  public boolean isSuccessVerifyEmail(String email, String verificationCode) {
 
     // 테스트용
     if ("010101".equals(verificationCode)) {
