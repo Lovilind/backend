@@ -29,18 +29,14 @@ public class SecurityConfig {
     http.with(jwtFilterDsl, JwtFilterDsl::build);
     http.headers(headerConfig -> headerConfig.frameOptions(FrameOptionsConfig::disable));
     http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-        .sessionManagement(
-            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .formLogin(AbstractHttpConfigurer::disable)
         .httpBasic(AbstractHttpConfigurer::disable)
         // cors 관련 옵션 끄기
         .cors(cors -> cors.configurationSource(apiConfigurationSource()))
         .csrf(AbstractHttpConfigurer::disable)
-        .exceptionHandling(
-            exception -> exception.authenticationEntryPoint(authenticationEntryPointHandler))
-        .logout(
-            logout ->
-                logout.logoutSuccessHandler(logoutSuccessCustomHandler).logoutUrl("/api/logout"));
+        .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPointHandler))
+        .logout(logout -> logout.logoutSuccessHandler(logoutSuccessCustomHandler).logoutUrl("/api/logout"));
     return http.build();
   }
 

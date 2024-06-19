@@ -29,9 +29,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
   private static final String EXCEPTION_CODE = "exceptionCode";
 
   @Override
-  protected void doFilterInternal(
-      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-      throws ServletException, IOException {
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     try {
       setAuthenticationToContext(request);
     } catch (ExpiredJwtException ee) {
@@ -66,13 +64,11 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
   private Authentication createAuthenticatedToken(HttpServletRequest request) {
     Principal principal = createUserDetails(request);
-    return new UsernamePasswordAuthenticationToken(
-        principal.getId(), null, principal.getAuthorities());
+    return new UsernamePasswordAuthenticationToken(principal.getId(), null, principal.getAuthorities());
   }
 
   private Principal createUserDetails(HttpServletRequest request) {
-    String token =
-        getAuthenticationTokenToHeader(request).substring(jwtProperties.getPrefixLength());
+    String token = getAuthenticationTokenToHeader(request).substring(jwtProperties.getPrefixLength());
     return new Principal(jwtProvider.getClaims(token));
   }
 }

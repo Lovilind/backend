@@ -1,5 +1,6 @@
 package com.project.lovlind.conmon.security.filter;
 
+import com.project.lovlind.conmon.exception.BusinessLogicException;
 import com.project.lovlind.conmon.redis.repository.RedisRepository;
 import com.project.lovlind.conmon.security.details.Principal;
 import com.project.lovlind.conmon.security.dto.UserInfo;
@@ -8,6 +9,7 @@ import com.project.lovlind.conmon.utils.jwt.JwtProperties;
 import com.project.lovlind.conmon.utils.jwt.JwtProvider;
 import com.project.lovlind.conmon.utils.response.CookieUtils;
 import com.project.lovlind.conmon.utils.trans.ObjectMapperUtils;
+import com.project.lovlind.domain.member.exception.MemberExceptionCode;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,17 +37,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   @Override
   public Authentication attemptAuthentication(
       HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-    LoginDto requestData = objectMapper.toEntity(request, LoginDto.class);
-    var authenticationToken = createAuthenticationToken(requestData);
-    return getAuthenticationManager().authenticate(authenticationToken);
+    try {
+      LoginDto requestData = objectMapper.toEntity(request, LoginDto.class);
+      return getAuthenticationManager().authenticate(createAuthenticationToken(requestData));
+
+    } catch (Exception e) {
+      throw new BusinessLogicException(MemberExceptionCode.USER_NOT_SAME);
+    }
   }
 
   @Override
-  protected void successfulAuthentication(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      FilterChain chain,
-      Authentication authResult) {
+  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
     Principal principal = (Principal) authResult.getPrincipal();
 
     String accessToken = createAccessToken(principal);

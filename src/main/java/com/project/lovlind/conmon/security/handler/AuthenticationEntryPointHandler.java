@@ -21,11 +21,7 @@ public class AuthenticationEntryPointHandler implements AuthenticationEntryPoint
   private final ObjectMapperUtils objectMapperUtils;
 
   @Override
-  public void commence(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      AuthenticationException authException)
-      throws IOException {
+  public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
     sendError(response, getExceptionCodeByRequest(request));
   }
 
@@ -36,8 +32,7 @@ public class AuthenticationEntryPointHandler implements AuthenticationEntryPoint
     return (AuthExceptionCode) request.getAttribute("exceptionCode");
   }
 
-  private void sendError(HttpServletResponse response, AuthExceptionCode authExceptionCode)
-      throws IOException {
+  private void sendError(HttpServletResponse response, AuthExceptionCode authExceptionCode) throws IOException {
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setCharacterEncoding("utf-8");
     response.setStatus(authExceptionCode.getHttpStatus().value());

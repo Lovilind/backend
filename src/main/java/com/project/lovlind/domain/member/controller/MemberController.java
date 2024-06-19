@@ -35,6 +35,16 @@ public class MemberController {
     return savedId;
   }
 
+  @PostMapping("/login")
+  public Member login(@RequestBody PostMemberDto dto) {
+    return memberService.login(dto);
+  }
+
+//  @PostMapping("/logout")
+//  public  login(@RequestBody PostMemberDto dto) {
+//    return memberService.login(dto);
+//  }
+
   @DeleteMapping("/sign/members")
   public void signOut(CurrentUser user) {
     memberService.delete(user.getUserId());

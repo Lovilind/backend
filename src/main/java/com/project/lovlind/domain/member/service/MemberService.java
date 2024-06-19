@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,6 +27,19 @@ public class MemberService {
   private final RedisRepository redisRepository;
   private final PasswordEncoder encoder;
 
+
+  public Member login(PostMemberDto dto) {
+
+    Member member = repository.findByEmail(dto.getEmail())
+            .orElseThrow(() -> new BusinessLogicException(MemberExceptionCode.USER_NOT_FOUND));
+
+      String encodedPassword = encoder.encode(dto.getPassword());
+      if (member.getPassword().equals(encodedPassword)) {
+        return member;
+      }
+
+    throw new BusinessLogicException(MemberExceptionCode.PASSWORD_NOT_SAME);
+  }
 
   public Long save(PostMemberDto dto) {
 
