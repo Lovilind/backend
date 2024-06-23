@@ -3,7 +3,8 @@ package com.project.lovlind.configuration;
 import com.project.lovlind.configuration.dsl.JwtFilterDsl;
 import com.project.lovlind.conmon.security.handler.AuthenticationEntryPointHandler;
 import com.project.lovlind.conmon.security.handler.LogoutSuccessCustomHandler;
-import java.util.Arrays;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,11 +44,11 @@ public class SecurityConfig {
   private CorsConfigurationSource apiConfigurationSource() {
 
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONAL", "OPTION"));
+    configuration.setAllowedOriginPatterns(List.of("http://localhost:[*]", "https://localhost:[*]", "http://www.lovlind.me:[*]", "https://www.lovlind.me:[*]"));
+    configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONAL", "OPTION"));
     configuration.setAllowCredentials(true);
-    configuration.setAllowedHeaders(Arrays.asList("*"));
-    configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh", "authorization"));
+    configuration.setAllowedHeaders(List.of("*"));
+    configuration.setExposedHeaders(List.of("Authorization", "Location", "Refresh", "authorization"));
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
