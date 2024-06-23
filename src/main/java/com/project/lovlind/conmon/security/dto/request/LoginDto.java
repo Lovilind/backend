@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginDto {
-  @NotNull private String username;
+  @NotNull private String email;
   @NotNull private String password;
 }

@@ -35,11 +35,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   private final JwtProperties jwtProperties;
 
   @Override
-  public Authentication attemptAuthentication(
-      HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+  public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
     try {
       LoginDto requestData = objectMapper.toEntity(request, LoginDto.class);
-      return getAuthenticationManager().authenticate(createAuthenticationToken(requestData));
+
+      UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(requestData.getEmail(), requestData.getPassword());
+      return getAuthenticationManager().authenticate(token);
 
     } catch (Exception e) {
       throw new BusinessLogicException(MemberExceptionCode.USER_NOT_SAME);
@@ -53,10 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String accessToken = createAccessToken(principal);
     String refreshToken = createRefreshToken(principal);
 
-    repository.save(
-        refreshToken,
-        objectMapper.toStringValue(createUserInfo(principal)),
-        jwtProperties.getRefreshTokenValidityInSeconds());
+    repository.save(refreshToken, objectMapper.toStringValue(createUserInfo(principal)), jwtProperties.getRefreshTokenValidityInSeconds());
     response.setHeader(HttpHeaders.AUTHORIZATION, jwtProperties.getPrefix() + accessToken);
     response.addCookie(cookieUtils.createCookie(refreshToken));
   }
@@ -72,10 +70,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   private UserInfo createUserInfo(Principal principal) {
     return new UserInfo(principal.getUsername(), toTrans(principal.getAuthorities()));
-  }
-
-  private UsernamePasswordAuthenticationToken createAuthenticationToken(LoginDto login) {
-    return new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
   }
 
   private String toTrans(Collection<GrantedAuthority> list) {

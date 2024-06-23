@@ -25,9 +25,7 @@ public class LogoutSuccessCustomHandler implements LogoutSuccessHandler {
   }
 
   @Override
-  public void onLogoutSuccess(
-      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-      throws IOException {
+  public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
     deleteTokenToRedis(cookieUtils.deleteCookie(request));
 
