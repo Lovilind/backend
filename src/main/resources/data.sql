@@ -30,9 +30,8 @@ values
     ('PARTICIPATING',2,2,5),
     ('PARTICIPATING',2,3,20),
     ('PARTICIPATING',3,1,0),
-    ('PARTICIPATING',3,2,10),
-    ('PARTICIPATING',3,3,5);
-
+    ('PARTICIPATING',3,2,10)
+    ;
 insert into message(message,message_type,member_id,chatroom_id)
 values
     ('메시지1','CHAT',FLOOR(1 + (RAND() * 3)),FLOOR(1 + (RAND() * 3))),

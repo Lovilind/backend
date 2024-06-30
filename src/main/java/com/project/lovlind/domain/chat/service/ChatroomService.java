@@ -4,7 +4,9 @@ import static com.project.lovlind.domain.chat.exception.ChatExceptionCode.NOT_FO
 
 import com.project.lovlind.conmon.exception.BusinessLogicException;
 import com.project.lovlind.domain.chat.cache.CacheParticipantRepository;
+import com.project.lovlind.domain.chat.controller.dto.ChatrommSearchFilter;
 import com.project.lovlind.domain.chat.controller.dto.request.PostChatDto;
+import com.project.lovlind.domain.chat.controller.dto.response.ChatRoomDto;
 import com.project.lovlind.domain.chat.entity.Chatroom;
 import com.project.lovlind.domain.chat.entity.ChatroomHobby;
 import com.project.lovlind.domain.chat.repository.ChatroomRepository;
@@ -12,6 +14,8 @@ import com.project.lovlind.domain.participaint.entity.Participant;
 import com.project.lovlind.domain.participaint.repository.ParticipantRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +51,11 @@ public class ChatroomService {
     participantRepository.delete(participant);
   }
 
-  public List<Chatroom> getChatrooms() {
-    return repository.findAll();
+  public List<ChatRoomDto> getChatrooms(ChatrommSearchFilter filter) {
+    List<Chatroom> chatrooms = filter.isAllSearch() ? repository.findAll() : repository.findAll();
+    return chatrooms.stream()
+            .map(ChatRoomDto::new)
+            .collect(Collectors.toList());
   }
 
   public Long saveChatroom(PostChatDto dto) {
