@@ -69,5 +69,19 @@ public class ChatroomService {
     cacheParticipantRepository.saveRoom(savedEntity.getId());
     return savedEntity.getId();
   }
-  // TODO: chatroom Hobby 적용
+
+  public List<ChatRoomDto> getMyChatrooms(Long userId) {
+    
+    // 참여한 방 전채 목록 조회
+    List<Participant> joinedChatIds = participantRepository.findByMemberId(userId);
+    if (joinedChatIds.isEmpty()) {
+      return new ArrayList<>();
+    }
+
+    return joinedChatIds.stream()
+            .map(participant -> participant.getChatroom())
+            .map(ChatRoomDto::new)
+            .distinct()
+            .collect(Collectors.toList());
+  }
 }

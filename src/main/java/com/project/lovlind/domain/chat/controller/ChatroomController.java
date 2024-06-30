@@ -21,6 +21,18 @@ public class ChatroomController {
   private final ChatroomService service;
   private static final String URL = "/api/chatroom";
 
+  /** 채팅방 조회 */
+  @GetMapping
+  public ResponseEntity<List<ChatRoomDto>> getChatrooms(@ModelAttribute ChatrommSearchFilter filter ) {
+    return ResponseEntity.ok(service.getChatrooms(filter));
+  }
+
+  /** 채팅방 조회 */
+  @GetMapping("/my")
+  public ResponseEntity<List<ChatRoomDto>> getMyChatRoom(CurrentUser currentUser ) {
+    return ResponseEntity.ok(service.getMyChatrooms(currentUser.getUserId()));
+  }
+
   /** 대화방 입장 */
   //  @PostMapping("/{id}/join")
   //  public ResponseEntity<Void> joinChatroom(@PathVariable Long id, CurrentUser user) {
@@ -37,11 +49,6 @@ public class ChatroomController {
     return ResponseEntity.ok().build();
   }
 
-  /** 채팅방 조회 */
-  @GetMapping
-  public ResponseEntity<List<ChatRoomDto>> getChatrooms(@ModelAttribute ChatrommSearchFilter filter ) {
-    return ResponseEntity.ok(service.getChatrooms(filter));
-  }
 
   @PostMapping
   public ResponseEntity<Void> postChatroom(@RequestBody PostChatDto dto) {
